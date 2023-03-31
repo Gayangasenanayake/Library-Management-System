@@ -1,6 +1,4 @@
 <!DOCTYPE html>
-<?php $notifications = DB::table('notifications')->get();?>
-
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -26,9 +24,7 @@
 
 </head>
 <body>
-    @if (Auth::check())
-        @include('notification')
-    @endif
+
     <!-- Start: Header Section -->
     <header id="header-v1" class="navbar-wrapper inner-navbar-wrapper">
         <div class="container">
@@ -57,28 +53,49 @@
                                             <a href="#"><i class="fa fa-envelope"></i>uvacollage@gmail.com</a>
                                         </div>
                                     </div>
-
-                                    @include('header')
-
+                                    <div class="col-sm-6">
+                                        <div class="topbar-links">
+                                            <a href="signin.html"><i class="fa fa-lock"></i>Login / Register</a>
+                                            <span>|</span>
+                                            
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="navbar-collapse hidden-sm hidden-xs">
                                 <ul class="nav navbar-nav">
                                     <li><a href="/">Home</a></li>
-                                    <li class="active"><a href="/books-gride">Books</a></li>
+                                    <li class="active"><a href="books-gride">Books</a></li>
                                     <li><a href="/subject-books">Subjects</a></li>
-                                    
-                                    <li><a href="/ebook-view">Ebooks</a></li>
-                                    <li><a href="/contact">Contact</a></li>
-                                    @if (Auth::check())
-                                        @if (Auth::user()->is_admin == 1)
-                                            <li id="user-req"><a href="" data-toggle="modal" data-target="#admin-profile">Profile</a></li>
-                                        @elseif(substr(Auth::user()->memberid, 0,1) == 'ST')
-                                            <li id="user-req"><a href="{{route('user.profile', Auth::user()->memberid)}}">Profile</a></li>
-                                        @else
-                                            <li id="user-req"><a href="{{route('user.profile', Auth::user()->memberid)}}">Profile</a></li>
-                                        @endif
-                                    @endif
+                                    <li class="dropdown">
+                                        <a data-toggle="dropdown" class="dropdown-toggle disabled" href="#">Categories</a>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="#">General Books|සාමාන්‍ය කෘති</a></li>
+                                            <li><a href="#">Philosophy and Psychology|<br>දර්ශනය සහ මනෝ විද්‍යාව</a></li>
+                                            <li><a href="#">Religion|ආගම</a></li>
+                                            <li><a href="#">Language|භාෂාව</a></li>
+                                            <li><a href="#">Natural science and maths|<br>ස්වාභාව විද්‍යාව සහ ගණිතය</a></li>
+                                            <li><a href="#">Technology|තාක්ෂණ විද්‍යා</a></li>
+                                            <li><a href="#">Art|කලා</a></li>
+                                            <li><a href="#">Literature|සාහිත්‍ය</a></li>
+                                            <li><a href="#">Geography|භූගෝල විද්‍යාව</a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="dropdown">
+                                        <a data-toggle="dropdown" class="dropdown-toggle disabled" href="#">languages</a>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="#">American Literature|<br>ඇමෙරිකානු සාහිත්‍ය</a></li>
+                                            <li><a href="#">English Literature|<br>ඉංග්‍රීසි සාහිත්‍ය</a></li>
+                                            <li><a href="#">German literature|<br>ජර්මන් සාහිත්‍ය</a></li>
+                                            <li><a href="#">French literature|<br>ප්‍රංශ සාහිත්‍ය</a></li>
+                                            <li><a href="#">Italian literature|<br>ඉතාලි සාහිත්‍ය</a></li>
+                                            <li><a href="#">Latin literature|<br>ලතින් සාහිත්‍ය</a></li>
+                                            <li><a href="#">Greek literature|<br>ග්‍රීක සාහිත්‍ය</a></li>
+                                            <li><a href="#">spanish literature|<br>ස්පාඤ්ඤ සාහිත්‍ය</a></li>
+                                        </ul>
+                                    </li>
+                                    <li><a href="#">Contact</a></li>
+                                    <li><a href="#">Profile</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -92,20 +109,37 @@
                                     <a href="#" class="close"></a>
                                 </li>
                                 <li><a href="/">Home</a></li>
-                                <li class="active"><a href="/books-gride">Books</a></li>
-                                <li><a href="/subject-books">Subjects</a></li>
-                                
-                                <li><a href="/ebook-view">Ebooks</a></li>
-                                <li><a href="/contact">Contact</a></li>
-                                @if (Auth::check())
-                                    @if (Auth::user()->is_admin == 1)
-                                        <li id="user-req"><a href="" data-toggle="modal" data-target="#admin-profile">Profile</a></li>
-                                    @elseif(substr(Auth::user()->memberid, 0,1) == 'ST')
-                                        <li id="user-req"><a href="{{route('user.profile', Auth::user()->memberid)}}">Profile</a></li>
-                                    @else
-                                        <li id="user-req"><a href="{{route('user.profile', Auth::user()->memberid)}}">Profile</a></li>
-                                    @endif
-                                @endif
+                                <li class="active"><a href="books-gride">Books</a></li>
+                                <li><a href="sub-books">Subjects</a></li>      
+                                <li class="dropdown">
+                                    <a data-toggle="dropdown" class="dropdown-toggle disabled" href="#">Categories</a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="#">General Books|සාමාන්‍ය කෘති</a></li>
+                                        <li><a href="#">Philosophy and Psychology|<br>දර්ශනය සහ මනෝ විද්‍යාව</a></li>
+                                        <li><a href="#">Religion|ආගම</a></li>
+                                        <li><a href="#">Language|භාෂාව</a></li>
+                                        <li><a href="#">Natural science and maths|<br>ස්වාභාව විද්‍යාව සහ ගණිතය</a></li>
+                                        <li><a href="#">Technology|තාක්ෂණ විද්‍යා</a></li>
+                                        <li><a href="#">Art|කලා</a></li>
+                                        <li><a href="#">Literature|සාහිත්‍ය</a></li>
+                                        <li><a href="#">Geography|භූගෝල විද්‍යාව</a></li>
+                                    </ul>
+                                </li>
+                                <li class="dropdown">
+                                    <a data-toggle="dropdown" class="dropdown-toggle disabled" href="#">languages</a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="#">American Literature|<br>ඇමෙරිකානු සාහිත්‍ය</a></li>
+                                        <li><a href="#">English Literature|<br>ඉංග්‍රීසි සාහිත්‍ය</a></li>
+                                        <li><a href="#">German literature|<br>ජර්මන් සාහිත්‍ය</a></li>
+                                        <li><a href="#">French literature|<br>ප්‍රංශ සාහිත්‍ය</a></li>
+                                        <li><a href="#">Italian literature|<br>ඉතාලි සාහිත්‍ය</a></li>
+                                        <li><a href="#">Latin literature|<br>ලතින් සාහිත්‍ය</a></li>
+                                        <li><a href="#">Greek literature|<br>ග්‍රීක සාහිත්‍ය</a></li>
+                                        <li><a href="#">spanish literature|<br>ස්පාඤ්ඤ සාහිත්‍ය</a></li>
+                                    </ul>
+                                </li>
+                                <li><a href="#">Contact</a></li>
+                                <li><a href="#">Profile</a></li>
                             </ul>
                         </div>
                     </div>
@@ -148,21 +182,26 @@
                                         <h3 style="margin-bottom: 0%; font-size: 22pt;" >ඔබ පුස්තකාලයේ සොයන්නේ කුමක්ද?</h3>
                                         <h3 style="font-size: 17pt;">நூலகத்தில் என்ன தேடுகிறீர்கள்?</h3>
                                         <form action="{{ route('book.search') }}" method="post">
-                                            @csrf
+                                            <div class="col-md-2 col-sm-6"></div>
                                             <div class="col-md-4 col-sm-6">
-                                                {{-- <div class="form-group">
+                                                <div class="form-group">
                                                     <label class="sr-only" for="keywords">Search by Keyword</label>
                                                     <input class="form-control" placeholder="Search by Keyword" id="keywords" name="keywords" type="text">
-                                                </div> --}}
+                                                </div>
                                             </div>
                                             <div class="col-md-3 col-sm-6">
                                                 <div class="form-group">
                                                     <select name="category" id="category" class="form-control">
-                                                        <option disabled="disabled">All Categories</option>
-                                                        <?php $category = DB::table('categories')->get(); ?>
-                                                        @foreach ($category as $item)
-                                                            <option value="{{$item->categoryId}}">{{$item->categoryName}}</option>
-                                                        @endforeach                                
+                                                        <option value="" disabled="disabled">All Categories</option>
+                                                        <option value="100">General Books|සාමාන්‍ය කෘති</option>
+                                                        <option value="200">Philosophy and Psychology|<br>දර්ශනය සහ මනෝ විද්‍යාව</option>
+                                                        <option value="300">Religion|ආගම</option>
+                                                        <option value="400">Language|භාෂාව</option>
+                                                        <option value="500">Natural science and maths|<br>ස්වාභාව විද්‍යාව සහ ගණිතය</option>
+                                                        <option value="600">Technology|තාක්ෂණ විද්‍යා</option>
+                                                        <option value="700">Art|කලා</option>
+                                                        <option value="800">Literature|සාහිත්‍ය</option>
+                                                        <option value="900">Geography|භූගෝල විද්‍යාව</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -185,7 +224,7 @@
                                     <li>
                                         <div class="book-list-icon yellow-icon"></div>
                                         <figure>
-                                            <a href=""><img src="book-images/{{ $book->book_image }}" alt="Book"></a>
+                                            <a href="books-media-detail-v2.html"><img src="{{ $book->book_image }}" alt="Book"></a>
                                             <figcaption>
                                                 <header>
                                                     <h4><a href="#">{{ $book->book_name }}</a></h4>
@@ -195,46 +234,24 @@
                                                 <p>{{ $book->book_desc }}</p>
                                                 <div class="actions">
                                                     <ul>
-                                                    @if (Auth::check())
-                                                        @if ( $book->quantity > 0)
-                                                            @if($book->category_id == 'C|AD|16')
-                                                                @if ($grade = DB::table('user_students')->where('Stu_Id',Auth::user()->memberid)->first())
-                                                                    @if($grade->Grade >= 10)
-                                                                        <li style="color:rgb(5, 149, 0);">{{$book->quantity}} copies available</li>
-                                                                        <li>
-                                                                            {{-- <button data-toggle="modal" data-target="#borrow-book">Borrow</button> --}}
-                                                                            <button data-toggle="modal" data-target="#demoModal-{{$book->id}}">Borrow <i class="fa fa-long-arrow-right"></i></button>
-                                                                        </li>
-                                                                    @else
-                                                                        <li style="color: rgb(255, 0, 0)">You cannot borrow book in this category!</li>
-                                                                    @endif
-                                                                @else
-                                                                    <li style="color:rgb(5, 149, 0);">{{$book->quantity}} copies available</li>
-                                                                    <li>
-                                                                        {{-- <button data-toggle="modal" data-target="#borrow-book">Borrow</button> --}}
-                                                                        <button data-toggle="modal" data-target="#demoModal-{{$book->id}}">Borrow <i class="fa fa-long-arrow-right"></i></button>
-                                                                    </li>
-                                                                @endif
-                                                            @else
-                                                                <li style="color:rgb(5, 149, 0);">{{$book->quantity}} copies available</li>
-                                                                <li>
-                                                                    {{-- <button data-toggle="modal" data-target="#borrow-book">Borrow</button> --}}
-                                                                    <button data-toggle="modal" data-target="#demoModal-{{$book->id}}">Borrow <i class="fa fa-long-arrow-right"></i></button>
-                                                                </li>  
-                                                            @endif
+                                                        <li>
+                                                            <a href="#" target="_blank" data-toggle="blog-tags" data-placement="top" title="Like">
+                                                                <i class="fa fa-heart"></i>
+                                                            </a>
+                                                        </li>
+                                                        @if ( $book->status == "0")
+                                                            <li style="color: green">Available</li>
                                                         @else
                                                             <li style="color: red">Not Available</li>
                                                         @endif
-                                                    @else
-                                                        <li style="color: rgb(238, 0, 0)"> You must login to borrow </li>
-                                                        <li><a href="{{route('login')}}"><i class="fa fa-lock"></i> Login </a></li>
-                                                    @endif
+                                                        <li>
+                                                            <a href="">Borrow</a>
+                                                        </li>
                                                     </ul>
                                                 </div>
                                             </figcaption>
                                         </figure>                                                
                                     </li>
-                                    @include('admin/pages/borrow-confirm')
                                     @endforeach
                                 </ul>
                             </div><!--booksmedia-fullwidth-->
@@ -288,10 +305,5 @@
     <script src="js/main.js"></script>
 
     <script src="https://kit.fontawesome.com/ff2d286ff7.js" crossorigin="anonymous"></script>
-    <script>
-        if ({{!Auth::check()}}) {
-            document.getElementById("user-req").style.display = "none";
-        }
-    </script>
 </body>
 </html>

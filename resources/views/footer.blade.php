@@ -8,7 +8,7 @@
                       <h3 class="footer-widget-title">About Uva Collage</h3>
                       <span class="underline left"></span>
                       <div class="textwidget">
-                        Libraries store the energy that fuels the imagination. They open up windows to the world and inspire us to explore and achieve, and contribute to improving our quality of life.
+                          It is a long established fact that a reader will be distracted by the readable content of a page when looking.
                       </div>
                       <address>
                               <div class="info">

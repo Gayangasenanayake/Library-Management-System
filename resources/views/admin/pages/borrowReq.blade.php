@@ -1,29 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
-    @if (!Auth::check())
-        @include('errors/noLogin') 
-    @elseif (Auth::user()->is_admin != 1)
-        @include('errors/noLogin')
-    @else
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Admin | Borrow Requests</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Admin | Borrow Requests</title>
 
-    <!--favicon icons-->
-    <link rel="shortcut icon" href="favicon/icon.png" type="image/x-icon" />
-    
-    <!-- Google Font: Source Sans Pro -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
-    <!-- DataTables -->
-    <link rel="stylesheet" href="../../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
-    <link rel="stylesheet" href="../../plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
-    <link rel="stylesheet" href="../../plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
-    <!-- Theme style -->
-    <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
-    <link rel="stylesheet" href="{{asset('css/alert.css')}}">
+  <!--favicon icons-->
+  <link rel="shortcut icon" href="favicon/icon.png" type="image/x-icon" />
+  
+  <!-- Google Font: Source Sans Pro -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
+  <!-- DataTables -->
+  <link rel="stylesheet" href="../../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+  <link rel="stylesheet" href="../../plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+  <link rel="stylesheet" href="../../plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
   
 </head>
 <body class="hold-transition sidebar-mini">
@@ -33,7 +27,7 @@
         <!-- Main Sidebar Container -->
         <aside class="main-sidebar sidebar-dark-success elevation-4" style=" background-image: linear-gradient(rgb(36, 36, 36), rgb(4, 0, 224));">
             <!-- School Logo -->
-            <a href="/" class="brand-link">
+            <a href="#" class="brand-link">
                 <img src="dist/img/schoolLogo.png" alt="School Logo" height="50px">
             </a>
 
@@ -42,22 +36,10 @@
                 <!-- Sidebar user panel-->
                 <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                     <div class="image">
-                        <img src="icons/user.png" class="img-circle elevation-2" alt="User Image">
+                        <img src="dist/img/avatar2.png" class="img-circle elevation-2" alt="User Image">
                     </div>
                     <div class="info">
-                        <a href="#" class="d-block mr-3" style="float: left;" data-toggle="modal" data-target="#admin-profile">{{ Auth::user()->firstname }}</a>
-                        <a class="btn btn-danger btn-sm" href="{{ route('logout') }}"
-                                   onclick="event.preventDefault();
-                                                 document.getElementById('logout-form').submit();">
-                                    {{ __('Logout') }}
-                        </a>
-                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                            @csrf
-                        </form>
-
-                        {{-- <main class="py-4">
-                            @yield('content')
-                        </main> --}}
+                        <a href="/profile" class="d-block">Mis. Perera</a>
                     </div>
                 </div>
 
@@ -93,12 +75,6 @@
                                     <a href="/addUser" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>Add new user</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="/user-requests" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>Registration Requests</p>
                                     </a>
                                 </li>
                             </ul>
@@ -163,12 +139,6 @@
                                         <p>Manage borrow requests</p>
                                     </a>
                                 </li>
-                                <li class="nav-item">
-                                    <a href="{{route('list.fine')}}" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Fines Details</p>
-                                    </a>
-                                </li>
                             </ul>
                         </li>
 
@@ -183,13 +153,13 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="{{route('admin.addNewCategory')}}" class="nav-link">
+                                    <a href="/addCategory" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Add category</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{{route('admin.view.category')}}" class="nav-link">
+                                    <a href="/listedCategories" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Manage categories</p>
                                     </a>
@@ -197,28 +167,26 @@
                             </ul>
                         </li>
 
-                        <!-- Ebooks -->
+                        <!--Authors-->
                         <li class="nav-item">
                             <a href="#" class="nav-link">
-                                <i class="nav-icon fas fa-book-bookmark"></i>
+                                <i class="nav-icon fas fa-user"></i>
                                 <p>
-                                    EBooks
+                                    Authors
                                     <i class="right fa-solid fa-angles-left"></i>
                                 </p>
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="/inserteBook" class="nav-link">
+                                    <a href="/addAuthor" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>Add EBook</p>
+                                        <p>Add new author</p>
                                     </a>
                                 </li>
-                            </ul>
-                            <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="/listedEbooks" class="nav-link">
+                                    <a href="/listedAuthors" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>Ebooks details</p>
+                                        <p>Manage authors</p>
                                     </a>
                                 </li>
                             </ul>
@@ -235,16 +203,15 @@
             <section class="content-header">
             <div class="container-fluid">
                 <div class="row mb-2">
-                    <div class="col-sm-6">
-                        <h1>Borrow Requests</h1>
-                    </div>
-                    <div class="col-sm-6">
-                        <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="/admin">Home</a></li>
-                        <li class="breadcrumb-item active">Borrow Requests</li>
-                        </ol>
-                    </div>
-                    
+                <div class="col-sm-6">
+                    <h1>Borrow Requests</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="/admin">Home</a></li>
+                    <li class="breadcrumb-item active">Borrow Requests</li>
+                    </ol>
+                </div>
                 </div>
             </div><!-- /.container-fluid -->
             </section>
@@ -252,24 +219,6 @@
             <!-- Main content -->
             <section class="content">
             <div class="container-fluid">
-                @if(Session::has('success'))
-                    <div class="alert success hide">
-                        <span class="fas fa-check-circle"></span>
-                        <span class="msg">Success: {{ Session::get('success') }}</span>
-                        <div class="close-btn">
-                        <span class="fas fa-times"></span>
-                        </div>
-                    </div>
-                @endif
-                @if(Session::has('fail'))
-                    <div class="alert danger hide">
-                        <span class="fas fa-exclamation-circle"></span>
-                        <span class="msg">Success: {{ Session::get('fail') }}</span>
-                        <div class="close-btn">
-                            <span class="fas fa-times"></span>
-                        </div>
-                    </div>
-                @endif
                 <div class="row">
                     <div class="col-12">
                         <div class="card">
@@ -281,87 +230,34 @@
                                 <table id="example1" class="table table-bordered table-striped">
                                     <thead>
                                         <tr>
-                                            <td>User ID</td>
-                                            <td>User Name</td>
-                                            <td>Book ID</td>
-                                            <td>Book Name</td>
-                                            <td>Requested Date</td>
-                                            <td>Status</td>
+                                            <th>Student Id</th>
+                                            <th>Student Name</th>
+                                            <th>Book ID</th>
+                                            <th>Book Name</th>
+                                            <th>Option</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach($books as $book)
-                                            <tr>
-                                                <td><a href="" data-toggle="modal" data-target="#user-details-{{$book->id}}">{{ $book->user_id }}</a></td>
-                                                <td>{{ $book->user_name }}</td>
-                                                <td>{{ $book->book_id}}</td>
-                                                <td>{{ $book->book_name }}</td>
-                                                <td>{{ $book->created_at }}</td>
-                                                <td>
-                                                    @if ($book->is_approved == 0)
-                                                        <button class="btn btn-info btn-sm" style="float: left;" data-toggle="modal" data-target="#accept-req-{{$book->id}}">Confirm </button>
-                                                        <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#remove-req-{{$book->id}}">Cancel </button>
-                                                    @elseif ($book->is_approved == 1)
-                                                        <span class="badge badge-success">
-                                                            <i class="fa fa-check"></i> Approved
-                                                        </span>
-                                                    @else
-                                                        <span class="badge badge-warning">
-                                                            <i class="fa fa-cancel"></i> Canceled
-                                                        </span>
-                                                    @endif
-                                                </td>
-                                            </tr>
-
-                                            @include('admin/pages/userProfile')
-
-                                            <div class="modal fade" id="accept-req-{{$book->id}}" tabindex="-1" role="dialog" aria-labelledby="demoModalLabel" aria-hidden="true">
-                                                <div class="modal-dialog" role="document">
-                                                    <div class="modal-content" style="width: 600px;">
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title" id="demoModalLabel" style="float: left;"> Confirmation</h5>
-                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                <span aria-hidden="true">&times;</span>
-                                                            </button>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            Are you sure to accept?
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <form action="{{ route('admin.books.approve', $book->id) }}" method="post">
-                                                                @csrf
-                                                                <button class="btn btn-success">OK</button>
-                                                            </form>
-                                                            <button type="button" class="btn btn-dark" data-dismiss="modal">Close</button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="modal fade" id="remove-req-{{$book->id}}" tabindex="-1" role="dialog" aria-labelledby="demoModalLabel" aria-hidden="true">
-                                                <div class="modal-dialog" role="document">
-                                                    <div class="modal-content" style="width: 600px;">
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title" id="demoModalLabel" style="float: left;"> Confirmation</h5>
-                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                <span aria-hidden="true">&times;</span>
-                                                            </button>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            Are you sure to cancel?
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <form action="{{ route('admin.books.unapprove', $book->id) }}" method="post">
-                                                                @csrf
-                                                                <button class="btn btn-success">OK</button>
-                                                            </form>
-                                                            <button type="button" class="btn btn-dark" data-dismiss="modal">Close</button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                        @endforeach
+                                        <tr>
+                                            <td><a href="#">ST ID here</a></td>
+                                            <td>Student name here</td>
+                                            <td>Book ID here</td>
+                                            <td>Book name here</td>
+                                            <td>
+                                                <button class="btn btn-success">Confirm</button>
+                                                <button class="btn btn-danger">Disline</button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><a href="#">ST ID here</a></td>
+                                            <td>Student name here</td>
+                                            <td>Book ID here</td>
+                                            <td>Book name here</td>
+                                            <td>
+                                                <button class="btn btn-success">Confirm</button>
+                                                <button class="btn btn-danger">Disline</button>
+                                            </td>
+                                        </tr>
                                     </tbody>
                                 </table>
                             </div>
@@ -411,8 +307,6 @@
     
     <!-- AdminLTE App -->
     <script src="dist/js/adminlte.js"></script>
-    <script src="{{asset('js/alert.js')}}"></script>
-
 
     <!-- Page specific script -->
     <script>
@@ -424,5 +318,4 @@
     });
     </script>
 </body>
-@endif
 </html>

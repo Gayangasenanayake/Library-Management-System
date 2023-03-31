@@ -1,10 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-    @if (!Auth::check())
-        @include('errors/noLogin') 
-    @elseif (Auth::user()->is_admin != 1)
-        @include('errors/noLogin')
-    @else
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,17 +8,18 @@
 
     {{-- include styles --}}
     @include('admin.plugins.style')
+    
 
 
 </head>
-<body class="hold-transition sidebar-mini layout-fixed">
+<body class="hold-transition dark-mode sidebar-mini layout-fixed">
     <div class="wrapper">
         {{-- include header  --}}
         @include('admin/header')
         <!-- Main Sidebar Container -->
         <aside class="main-sidebar sidebar-dark-success elevation-4" style=" background-image: linear-gradient(rgb(36, 36, 36), rgb(4, 0, 224));">
             <!-- School Logo -->
-            <a href="/" class="brand-link">
+            <a href="#" class="brand-link">
                 <img src="dist/img/schoolLogo.png" alt="School Logo" height="50px">
             </a>
 
@@ -32,22 +28,10 @@
                 <!-- Sidebar user panel-->
                 <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                     <div class="image">
-                        <img src="icons/user.png" class="img-circle elevation-2" alt="User Image">
+                        <img src="dist/img/avatar2.png" class="img-circle elevation-2" alt="User Image">
                     </div>
                     <div class="info">
-                        <a href="#" class="d-block mr-3" style="float: left;" data-toggle="modal" data-target="#admin-profile">{{ Auth::user()->firstname }}</a>
-                        <a class="btn btn-danger btn-sm" href="{{ route('logout') }}"
-                                   onclick="event.preventDefault();
-                                                 document.getElementById('logout-form').submit();">
-                                    {{ __('Logout') }}
-                        </a>
-                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                            @csrf
-                        </form>
-
-                        {{-- <main class="py-4">
-                            @yield('content')
-                        </main> --}}
+                        <a href="/profile" class="d-block">Mis. Perera</a>
                     </div>
                 </div>
 
@@ -83,12 +67,6 @@
                                     <a href="/addUser" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>Add new user</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="/user-requests" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>Registration Requests</p>
                                     </a>
                                 </li>
                             </ul>
@@ -153,12 +131,6 @@
                                         <p>Manage borrow requests</p>
                                     </a>
                                 </li>
-                                <li class="nav-item">
-                                    <a href="{{route('list.fine')}}" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Fines Details</p>
-                                    </a>
-                                </li>
                             </ul>
                         </li>
 
@@ -173,13 +145,13 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="{{route('admin.addNewCategory')}}" class="nav-link">
+                                    <a href="/addCategory" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Add category</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{{route('admin.view.category')}}" class="nav-link">
+                                    <a href="/listedCategories" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Manage categories</p>
                                     </a>
@@ -187,28 +159,26 @@
                             </ul>
                         </li>
 
-                        <!-- Ebooks -->
+                        <!--Authors-->
                         <li class="nav-item">
                             <a href="#" class="nav-link">
-                                <i class="nav-icon fas fa-book-bookmark"></i>
+                                <i class="nav-icon fas fa-user"></i>
                                 <p>
-                                    EBooks
+                                    Authors
                                     <i class="right fa-solid fa-angles-left"></i>
                                 </p>
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="/inserteBook" class="nav-link">
+                                    <a href="/addAuthor" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>Add EBook</p>
+                                        <p>Add new author</p>
                                     </a>
                                 </li>
-                            </ul>
-                            <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="/listedEbooks" class="nav-link">
+                                    <a href="/listedAuthors" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>Ebooks details</p>
+                                        <p>Manage authors</p>
                                     </a>
                                 </li>
                             </ul>
@@ -239,39 +209,25 @@
             </div>
 
             <div class="content">
-                @if(Session::has('success'))
-                        <div class="alert success hide">
-                            <span class="fas fa-check-circle"></span>
-                            <span class="msg">Success: {{ Session::get('success') }}</span>
-                            <div class="close-btn">
-                            <span class="fas fa-times"></span>
-                            </div>
-                        </div>
-                    @endif
-                    @if(Session::has('fail'))
-                        <div class="alert danger hide">
-                            <span class="fas fa-exclamation-circle"></span>
-                            <span class="msg">Fail: {{ Session::get('fail') }}</span>
-                            <div class="close-btn">
-                                <span class="fas fa-times"></span>
-                            </div>
-                        </div>
-                    @endif
                 <div class="container-fluid">
                     <div class="row ml-5">
                         <div class="col-md-6">
+
+                            @if (session('status'))
+                                <h5 class="alert alert-success">{{ session('status') }}</h5>
+                            @endif
 
                             <!--form-->
                             <div class="card card-info">
                                 <div class="card-header">
                                   <h3 class="card-title">Issue Book</h3>
                                 </div>
-                                <form action="{{ route('admin.issue.book') }}" method="POST">
+                                <form method="POST" action="">
                                     @csrf
                                     <div class="card-body">
                                         <div class="form-group">
                                         <label for="bookId">Book ID</label>
-                                        <input type="text" name="bookid" class="form-control" id="bookid" placeholder="Enter Book Id" required>
+                                        <input type="text" name="userid" class="form-control" id="bookid" placeholder="Enter User Id" required>
                                         </div>
                                         <div class="form-group">
                                             <label for="authorId">User Id</label>
@@ -279,32 +235,13 @@
                                         </div>
                                         
                                         <div class="form-check">
-                                        <input type="checkbox" class="form-check-input" id="exampleCheck1" required>
+                                        <input type="checkbox" class="form-check-input" id="exampleCheck1">
                                         <label class="form-check-label" for="exampleCheck1">Complete</label>
                                         </div>
                                     </div>
-                                    <div class="card-footer">
-                                        <a href="" class="btn btn-info" data-toggle="modal" data-target="#issue-book">Submit</a>
-                                    </div>
-                                    <div class="modal fade" id="issue-book" tabindex="-1" role="dialog" aria-labelledby="demoModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog" role="document">
-                                            <div class="modal-content" style="width: 600px;">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="demoModalLabel" style="float: left;">Remove Confirm</h5>
-                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    Are you entered correct details?
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="submit" class="btn btn-success">Ok</button>
-                                                    <button type="button" class="btn btn-dark" data-dismiss="modal">Close</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                  <div class="card-footer">
+                                    <button type="submit" class="btn btn-info">Submit</button>
+                                  </div>
                                 </form>
                             </div>
                             <!--end form-->
@@ -313,7 +250,7 @@
                         <div class="col-md-3 text-center ml-5">
                             <div class="card card-warning">
                                 <div class="card-header">
-                                    <h3>Scan Book QR</h3>
+                                    <h3>Qr Scanner</h3>
                                 </div>
                                 <div id="reader" width="600px"></div>
                             </div>
@@ -334,17 +271,21 @@
 
     <script>
         function onScanSuccess(decodedText, decodedResult) {
+        // handle the scanned code as you like, for example:
+        // console.log(`Code matched = ${decodedText}`, decodedResult);
         $("#bookid").val(decodedText);
         }
 
         function onScanFailure(error) {
+        // handle scan failure, usually better to ignore and keep scanning.
+        // for example:
         console.warn(`Code scan error = ${error}`);
         }
 
         let html5QrcodeScanner = new Html5QrcodeScanner(
         "reader",
         { fps: 10, qrbox: {width: 250, height: 250} },
-        false);
+        /* verbose= */ false);
         html5QrcodeScanner.render(onScanSuccess, onScanFailure);
     </script>
 
@@ -352,5 +293,4 @@
     @include('admin.plugins.script')
 
 </body>
-@endif
 </html>

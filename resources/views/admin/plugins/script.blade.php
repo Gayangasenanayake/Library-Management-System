@@ -56,6 +56,46 @@ $.widget.bridge('uibutton', $.ui.button)
     $.widget.bridge('uibutton', $.ui.button)
 </script>
 
+
+{{-- qr generate --}}
+<script>
+    function generate(){
+        var typeNumber = 4;
+        var errorCorrectionLevel = 'L';
+        var qr = qrcode(typeNumber, errorCorrectionLevel);
+        var inputText = document.getElementById('bookId').value;
+        qr.addData(inputText);
+        qr.make();
+        document.getElementById('placeHolder').innerHTML = qr.createImgTag();
+
+        canvasScreen();
+        canvas.style.width = canvasWidth;
+        canvas.style.height = canvasHeight;
+    }
+
+    downloadQrCode = function (el){
+        var canvas = document.getElementById("myCanvas");
+        var image = canvas.toDataURL("image/png");
+        el.href = image;
+    };
+
+    function canvasScreen(){
+        var a=document.getElementsByTagName("img")[0];
+        a.setAttribute("id","qrcode");
+        
+        var canvas = document.getElementById("myCanvas");
+        
+
+        var ctx = canvas.getContext("2d");
+        var img = document.getElementById("qrcode");
+        ctx.drawImage(img,70,0,150,150);
+        
+        document.getElementById("dBtn").style.display="block";
+        
+    }
+</script>
+
+
 <!-- jQuery -->
 <script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
 <!-- Bootstrap -->
@@ -63,6 +103,7 @@ $.widget.bridge('uibutton', $.ui.button)
 <!-- overlayScrollbars -->
 <script src="{{ asset('plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js') }}"></script>
 <!-- Uva collage app -->
+<script src="{{ asset('dist/js/adminlte.js') }}"></script>
 <!-- jQuery Mapael -->
 <script src="{{ asset('plugins/jquery-mousewheel/jquery.mousewheel.js') }}"></script>
 <script src="{{ asset('plugins/raphael/raphael.min.js') }}"></script>
@@ -89,22 +130,3 @@ $.widget.bridge('uibutton', $.ui.button)
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.qrcode/1.0/jquery.qrcode.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
-
-<!-- DataTables  & Plugins -->
-<script src="{{asset('plugins/datatables/jquery.dataTables.min.js')}}"></script>
-<script src="{{asset('plugins/datatables-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
-<script src="{{asset('plugins/datatables-responsive/js/dataTables.responsive.min.js')}}"></script>
-<script src="{{asset('plugins/datatables-responsive/js/responsive.bootstrap4.min.js')}}"></script>
-<script src="{{asset('plugins/datatables-buttons/js/dataTables.buttons.min.js')}}"></script>
-<script src="{{asset('plugins/datatables-buttons/js/buttons.bootstrap4.min.js')}}"></script>
-<script src="{{asset('plugins/jszip/jszip.min.js')}}"></script>
-<script src="{{asset('plugins/pdfmake/pdfmake.min.js')}}"></script>
-<script src="{{asset('plugins/pdfmake/vfs_fonts.js')}}"></script>
-<script src="{{asset('plugins/datatables-buttons/js/buttons.html5.min.js')}}"></script>
-<script src="{{asset('plugins/datatables-buttons/js/buttons.print.min.js')}}"></script>
-<script src="{{asset('plugins/datatables-buttons/js/buttons.colVis.min.js')}}"></script>
-
-<script src="{{asset('js/alert.js')}}"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
-
-
